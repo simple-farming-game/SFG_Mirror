@@ -8,6 +8,15 @@ pipeline {
     }
 
     stages {
+        stage('Setup') {
+            agent any
+            steps {
+                script {
+                    sh "go env -w \"CGO_ENABLED=1\""
+                }
+            }
+            
+        }
         stage('Checkout') {
             agent any
             steps {
