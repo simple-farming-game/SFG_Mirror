@@ -18,10 +18,9 @@ pipeline {
             steps {
                 // Install Go if it's not already installed
                 script {
-                    sh """
-                    curl -OL https://golang.org/dl/go${GO_VERSION}.linux-arm64.tar.gz
-                    sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-arm64.tar.gz
-                    """
+                    sh "curl -OL https://golang.org/dl/go${GO_VERSION}.linux-arm64.tar.gz"
+                    sh "sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-arm64.tar.gz"
+                    
                 }
             }
         }
