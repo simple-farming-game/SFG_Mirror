@@ -21,10 +21,12 @@ pipeline {
         }
 
         stage('Set up Go Environment') {
+            agent {
                 docker {
                     image 'golang'
                     alwaysPull true
                 }
+            }
             steps {
                 script {
                     // Go가 설치되어 있는지 확인
@@ -41,10 +43,12 @@ pipeline {
         }
 
         stage('Build') {
+            agent {
                 docker {
                     image 'golang'
                     alwaysPull true
                 }
+            }
             steps {
                 script {
                     // Go 환경 변수를 설정
