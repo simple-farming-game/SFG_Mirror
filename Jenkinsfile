@@ -8,6 +8,9 @@ pipeline {
     }
 
     stages {
+        stage('Setup') {
+            sh "bin/bash"
+        }
         stage('Checkout') {
             agent any
             steps {
