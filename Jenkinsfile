@@ -37,18 +37,5 @@ pipeline {
                 }
             }
         }
-
-    post {
-        always {
-            // Clean up workspace or perform any final steps
-            cleanWs()
-        }
-        success {
-            echo 'Build and deployment succeeded!'
-        }
-        failure {
-            echo 'Build or deployment failed.'
-        }
-    }
 }
 }
