@@ -11,7 +11,7 @@ pipeline {
         stage('Setup') {
             agent any
             steps {
-                    shell "bin/bash"
+                    sh "bin/bash"
             }
             
         }
@@ -26,30 +26,26 @@ pipeline {
         stage('Set up Go Environment') {
             agent any
             steps {
-                script {
                     // Go가 설치되어 있는지 확인
                     def goInstalled = sh(script: 'go version', returnStatus: true)
                     if (goInstalled != 0) {
                         // Go가 설치되어 있지 않으면 설치
-                        shell "curl -OL https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz" // 아키텍처 확인
-                        shell "sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz"
+                        sh "curl -OL https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz" // 아키텍처 확인
+                        sh "sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz"
                     } else {
                         echo 'Go is already installed.'
                     }
                     // Go 환경 변수를 설정
                     env.PATH = "${GOBIN}:${env.PATH}"
-                }
             }
         }
 
         stage('Build') {
             agent any
             steps {
-                script {
-                    shell 'go mod tidy' // 의존성 정리
-                    shell 'go get ./...' // 의존성 가져오기
-                    shell 'go build -o SFG ./...' // Go 애플리케이션 빌드
-                }
+                    sh 'go mod tidy' // 의존성 정리
+                    sh 'go get ./...' // 의존성 가져오기
+                    sh 'go build -o SFG ./...' // Go 애플리케이션 빌드
             }
         }
     }
