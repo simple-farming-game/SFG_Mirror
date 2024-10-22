@@ -11,9 +11,7 @@ pipeline {
         stage('Setup') {
             agent any
             steps {
-                withEnv(['PATH+EXTRA=/usr/local/go/bin']) {
                     shell "bin/bash"
-                }
             }
             
         }
@@ -29,7 +27,6 @@ pipeline {
             agent any
             steps {
                 script {
-                    withEnv(['PATH+EXTRA=/usr/local/go/bin']) {
                     // Go가 설치되어 있는지 확인
                     def goInstalled = sh(script: 'go version', returnStatus: true)
                     if (goInstalled != 0) {
@@ -41,7 +38,6 @@ pipeline {
                     }
                     // Go 환경 변수를 설정
                     env.PATH = "${GOBIN}:${env.PATH}"
-                    }
                 }
             }
         }
@@ -50,11 +46,9 @@ pipeline {
             agent any
             steps {
                 script {
-                    withEnv(['PATH+EXTRA=/usr/local/go/bin']) {
                     shell 'go mod tidy' // 의존성 정리
                     shell 'go get ./...' // 의존성 가져오기
                     shell 'go build -o SFG ./...' // Go 애플리케이션 빌드
-                    }
                 }
             }
         }
