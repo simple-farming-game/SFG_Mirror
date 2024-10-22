@@ -11,7 +11,9 @@ pipeline {
         stage('Setup') {
             agent any
             steps {
+                script {
                     sh "bin/bash"
+                }
             }
             
         }
@@ -26,6 +28,7 @@ pipeline {
         stage('Set up Go Environment') {
             agent any
             steps {
+                script {
                     // Go가 설치되어 있는지 확인
                     def goInstalled = sh(script: 'go version', returnStatus: true)
                     if (goInstalled != 0) {
@@ -37,15 +40,18 @@ pipeline {
                     }
                     // Go 환경 변수를 설정
                     env.PATH = "${GOBIN}:${env.PATH}"
+                }
             }
         }
 
         stage('Build') {
             agent any
             steps {
+                script {
                     sh 'go mod tidy' // 의존성 정리
                     sh 'go get ./...' // 의존성 가져오기
                     sh 'go build -o SFG ./...' // Go 애플리케이션 빌드
+                }
             }
         }
     }
