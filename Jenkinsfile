@@ -4,6 +4,7 @@ pipeline {
     environment {
         GO_VERSION = '1.22.8' // 사용할 Go 버전
         GOBIN = "/usr/local/go/bin" // GOBIN 설정
+        PATH = "${GOBIN}:${env.PATH}"
     }
 
     stages {
