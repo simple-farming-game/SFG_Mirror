@@ -1,18 +1,53 @@
 pipeline {
-    agent any   // Jenkins가 어떤 컴퓨터에서 일을 할지 정하는 부분
+    agent any
+
+    environment {
+        GO_VERSION = '1.22.8' // Specify your Go version
+        GOBIN = "/usr/local/go/bin" // Set the GOBIN
+    }
+
     stages {
-        stage('Gitea Clone') {   // 프로그램을 빌드하는 단계
+        stage('Checkout') {
             steps {
-                git branch: 'rewrite',
-                    url: 'https://gitea.sinoka.dev/sinoka/simple_farming_game'
+                // Checkout code from Gitea
+                git url: 'https://gitea.sinoka.dev/sinoka/simple_farming_game', branch: 'rewrite'
             }
         }
-        stage('Build') {   // 프로그램을 빌드하는 단계
+
+        stage('Set up Go Environment') {
             steps {
-                sh 'go version'
-                sh 'go get ./...'
-                sh 'go build main.go'
+                // Install Go if it's not already installed
+                script {
+                    sh """
+                    curl -OL https://golang.org/dl/go${GO_VERSION}.linux-arm64.tar.gz
+                    sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-arm64.tar.gz
+                    """
+                }
             }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Set up Go environment variables
+                    env.PATH = "${GOBIN}:${env.PATH}"
+                    sh 'go mod tidy' // Ensure dependencies are up to date
+                    sh 'go get ./...' // Build the Go application
+                    sh 'go build -o SFG ./...' // Build the Go application
+                }
+            }
+        }
+
+    post {
+        always {
+            // Clean up workspace or perform any final steps
+            cleanWs()
+        }
+        success {
+            echo 'Build and deployment succeeded!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
         }
     }
 }
