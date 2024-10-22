@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     environment {
         GO_VERSION = '1.22.8' // 사용할 Go 버전
