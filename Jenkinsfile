@@ -8,15 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Setup') {
-            agent any
-            steps {
-                script {
-                    sh "bin/bash"
-                }
-            }
-            
-        }
         stage('Checkout') {
             agent any
             steps {
