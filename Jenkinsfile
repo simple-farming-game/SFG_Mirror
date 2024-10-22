@@ -9,10 +9,9 @@ pipeline {
         }
         stage('Build') {   // 프로그램을 빌드하는 단계
             steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    sh 'go mod tidy'
-                }
-                sh 'go build main.go'   // go라는 언어로 프로그램을 빌드해라
+                sh 'go version'
+                sh 'go get ./...'
+                sh 'go build main.go'
             }
         }
     }
