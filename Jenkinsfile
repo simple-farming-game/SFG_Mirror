@@ -8,12 +8,7 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            agent {
-                docker {
-                    image 'golang'
-                    alwaysPull true
-                }
-            }
+            agent any
             steps {
                 // Gitea에서 코드 체크아웃
                 git url: 'https://gitea.sinoka.dev/sinoka/simple_farming_game', branch: 'rewrite'
@@ -21,12 +16,7 @@ pipeline {
         }
 
         stage('Set up Go Environment') {
-            agent {
-                docker {
-                    image 'golang'
-                    alwaysPull true
-                }
-            }
+            agent any
             steps {
                 script {
                     // Go가 설치되어 있는지 확인
@@ -43,12 +33,7 @@ pipeline {
         }
 
         stage('Build') {
-            agent {
-                docker {
-                    image 'golang'
-                    alwaysPull true
-                }
-            }
+            agent any
             steps {
                 script {
                     // Go 환경 변수를 설정
