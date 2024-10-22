@@ -2,8 +2,6 @@ module sfg
 
 go 1.22.8
 
-toolchain go1.22.8
-
 require github.com/gopxl/pixel/v2 v2.3.0
 
 require (
