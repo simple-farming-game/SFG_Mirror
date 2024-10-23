@@ -51,7 +51,9 @@ pipeline {
                     sh 'pwd'
                     sh 'go mod tidy' // 의존성 정리
                     sh 'go get ./...' // 의존성 가져오기
-                    sh 'go build -o SFG ./...' // Go 애플리케이션 빌드
+                    sh 'go build -o ./build/SFG ./...' // Go 애플리케이션 빌드
+                    sh 'echo "chmod +x ./build/SFG" > ./build/run.sh'
+                    sh 'echo "./SFG" >> ./build/run.sh'
                     buildResult = hudson.model.Result.SUCCESS.toString()
                 }
             }
@@ -64,7 +66,8 @@ pipeline {
                     dir('./') {
                         try {
                             echo '==== archive artifact start ===='
-                            archiveArtifacts artifacts: 'SFG', fingerprint: true
+                            sh 'tar -czvf build.tar.gz build'
+                            archiveArtifacts artifacts: 'build.tar.gz', fingerprint: true
                             echo '==== archive artifact done ===='
                         } catch (Exception e) {
 
