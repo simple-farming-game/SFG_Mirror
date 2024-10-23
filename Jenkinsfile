@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent smb
 
     environment {
         GO_VERSION = '1.22.8' // 사용할 Go 버전
@@ -9,7 +9,7 @@ pipeline {
 
     stages {
         stage('Setup') {
-            agent any
+            
             steps {
                 script {
                     sh "go env -w \"CGO_ENABLED=1\""
@@ -18,7 +18,7 @@ pipeline {
             
         }
         stage('Checkout') {
-            agent any
+            
             steps {
                 // Gitea에서 코드 체크아웃
                 git url: 'https://gitea.sinoka.dev/sinoka/simple_farming_game', branch: 'rewrite'
@@ -26,7 +26,7 @@ pipeline {
         }
 
         stage('Set up Go Environment') {
-            agent any
+            
             steps {
                 script {
                     // Go가 설치되어 있는지 확인
@@ -45,7 +45,7 @@ pipeline {
         }
 
         stage('Build') {
-            agent any
+            
             steps {
                 script {
                     sh 'pwd'
@@ -60,7 +60,7 @@ pipeline {
         }
 
         stage('Archive Artifact') {
-            agent any
+            
             steps {
                 script {
                     dir('./') {
