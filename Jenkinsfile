@@ -64,8 +64,7 @@ pipeline {
                     dir('./') {
                         try {
                             echo '==== archive artifact start ===='
-                            sh 'zip -r build.zip ./build' // artifact 로 생성하고 싶은 디렉토리를 지정해준다.
-                            archiveArtifacts artifacts: 'build.zip', fingerprint: true
+                            archiveArtifacts artifacts: './build/SFG', fingerprint: true
                             echo '==== archive artifact done ===='
                         } catch (Exception e) {
 
