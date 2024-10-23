@@ -52,6 +52,7 @@ pipeline {
                     sh 'go mod tidy' // 의존성 정리
                     sh 'go get ./...' // 의존성 가져오기
                     sh 'go build -o ./build/SFG ./...' // Go 애플리케이션 빌드
+                    currentBuild.result = hudson.model.Result.SUCCESS.toString()
                 }
             }
         }
@@ -60,7 +61,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script {
-                        dir('./build/') {
+                        dir('./') {
                             try {
                                 echo '==== archive artifact start ===='
                                 sh 'zip -r build.zip ./build' // artifact 로 생성하고 싶은 디렉토리를 지정해준다.
