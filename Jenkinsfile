@@ -54,5 +54,23 @@ pipeline {
                 }
             }
         }
+
+        stage('Archive Artifact') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script {
+                        dir('./build/') {
+                            try {
+                                echo '==== archive artifact start ===='
+                                archiveArtifacts artifacts: 'SFG', fingerprint: true
+                                echo '==== archive artifact done ===='
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
