@@ -58,6 +58,7 @@ pipeline {
         }
 
         stage('Archive Artifact') {
+            agent any
             steps {
                 script {
                     dir('./') {
