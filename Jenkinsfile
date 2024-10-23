@@ -64,7 +64,7 @@ pipeline {
                     dir('./') {
                         try {
                             echo '==== archive artifact start ===='
-                            archiveArtifacts artifacts: './SFG', fingerprint: true
+                            archiveArtifacts artifacts: 'SFG', fingerprint: true
                             echo '==== archive artifact done ===='
                         } catch (Exception e) {
 
