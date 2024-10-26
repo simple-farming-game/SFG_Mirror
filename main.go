@@ -1,7 +1,11 @@
 package main
 
 import (
+	"image"
+	"os"
+
 	"image/color"
+	_ "image/png"
 
 	"github.com/gopxl/pixel/v2"
 	"github.com/gopxl/pixel/v2/backends/opengl"
@@ -11,6 +15,19 @@ import (
 // BLACK: pygame.Color = pygame.Color(0, 0, 0)
 // WHITE: pygame.Color = pygame.Color(255, 255, 255)
 // BLUE: pygame.Color = pygame.Color(61, 139, 255)
+
+func loadPicture(path string) (pixel.Picture, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	return pixel.PictureDataFromImage(img), nil
+}
 
 func run() {
 	screenSize := pixel.R(0, 0, 960, 640)
@@ -28,7 +45,17 @@ func run() {
 	}
 	defer win.Destroy()
 
+	// load image
+	pic, err := loadPicture("./assets/img/player.png")
+	if err != nil {
+		panic(err)
+	}
+
+	// load sprite
+	sprite := pixel.NewSprite(pic, pic.Bounds())
+
 	win.Clear(SKYBLUE)
+	sprite.Draw(win, pixel.IM.Moved(win.Bounds().Center()))
 
 	for !win.Closed() {
 		win.Update()
